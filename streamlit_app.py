@@ -287,6 +287,7 @@ if question:
 
         # Natural language summary
         if answer:
+            
             st.markdown(answer)
 
         # Table
