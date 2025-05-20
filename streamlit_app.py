@@ -78,7 +78,11 @@ def call_kleeto_api(question: str, customer_id: str):
         except json.JSONDecodeError:
             pass  # Leave rows = None on failure
 
-    answer = inner.get("summarized_output") or raw_content or "⚠️ Backend returned no user‑visible text."
+
+    if inner.get("summarized_output"):
+        answer = inner.get("summarized_output")
+    else:
+        answer = None
     chat_id = inner.get("chat_id", "")
     print("Chat ID: ", chat_id)
 
@@ -282,7 +286,8 @@ if question:
                 answer, rows, chart_cfg = f"❌ Error: {e}", None, None
 
         # Natural language summary
-        st.markdown(answer)
+        if answer:
+            st.markdown(answer)
 
         # Table
         if rows:
